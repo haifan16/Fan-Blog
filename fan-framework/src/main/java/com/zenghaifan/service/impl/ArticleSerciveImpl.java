@@ -3,28 +3,23 @@ package com.zenghaifan.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.fasterxml.jackson.databind.util.BeanUtil;
 import com.zenghaifan.constants.SystemConstants;
 import com.zenghaifan.domain.ResponseResult;
+import com.zenghaifan.domain.VO.ArticleDetailVo;
 import com.zenghaifan.domain.VO.HotArticleVo;
 import com.zenghaifan.domain.VO.PageVo;
 import com.zenghaifan.domain.entity.Article;
-import com.zenghaifan.domain.entity.ArticleListVo;
+import com.zenghaifan.domain.VO.ArticleListVo;
 import com.zenghaifan.domain.entity.Category;
 import com.zenghaifan.mapper.ArticleMapper;
 import com.zenghaifan.service.ArticleService;
 import com.zenghaifan.service.CategoryService;
 import com.zenghaifan.utils.BeanCopyUtils;
-import org.apache.logging.log4j.message.ObjectMessage;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Service
 public class ArticleSerciveImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
@@ -83,5 +78,21 @@ public class ArticleSerciveImpl extends ServiceImpl<ArticleMapper, Article> impl
 
         PageVo pageVo = new PageVo(articleListVos, page.getTotal());
         return ResponseResult.okResult(pageVo);
+    }
+
+    @Override
+    public ResponseResult getArticleDetail(Long id) {
+        // 根据id查询文章
+        Article article = getById(id);
+        // 转换成VO
+        ArticleDetailVo articleDetailVo = BeanCopyUtils.copyBean(article, ArticleDetailVo.class);
+        // 根据分类id查询分类名
+        Long categoryId = articleDetailVo.getCategoryId();
+        Category category = categoryService.getById(categoryId);
+        if (category != null) {
+            articleDetailVo.setCategoryName(category.getName());
+        }
+        // 封装响应返回
+        return ResponseResult.okResult(articleDetailVo);
     }
 }

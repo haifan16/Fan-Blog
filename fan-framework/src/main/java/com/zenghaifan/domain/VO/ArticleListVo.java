@@ -1,4 +1,4 @@
-package com.zenghaifan.domain.entity;
+package com.zenghaifan.domain.VO;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
@@ -22,6 +22,17 @@ public class ArticleListVo {
     //缩略图
     private String thumbnail;
 
+    public Long getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(Long viewCount) {
+        this.viewCount = viewCount;
+    }
+
+    // 访问量
+    private Long viewCount;
+    // 创建时间
     private Date createTime;
 
     public Long getId() {
