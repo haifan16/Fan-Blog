@@ -27,7 +27,7 @@ public class LoginServiceImpl implements LoginService {
     @Autowired
     private RedisTemplate<String,String> redisTemplate;
 
-    private static final String slat = "mszlu!@#";
+    private static final String slat = "fan!@#";
 
     @Override
     public Result login(LoginParam loginParam) {

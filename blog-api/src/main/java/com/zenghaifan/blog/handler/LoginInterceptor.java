@@ -23,7 +23,7 @@ public class LoginInterceptor implements HandlerInterceptor {
     private LoginService loginService;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        //在执行controller方法(Handler)之前进行执行
+        // 在执行controller方法(Handler)之前进行执行
         /**
          * 1. 需要判断 请求的接口路径 是否为 HandlerMethod (controller方法)
          * 2. 判断 token是否为空，如果为空 未登录
@@ -57,15 +57,15 @@ public class LoginInterceptor implements HandlerInterceptor {
             response.getWriter().print(JSON.toJSONString(result));
             return false;
         }
-        //登录验证成功，放行
-        //我希望在controller中 直接获取用户的信息 怎么获取?
+        // 登录验证成功，放行
+        // TODO: 在controller中 直接获取用户的信息
         UserThreadLocal.put(sysUser);
         return true;
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        //如果不删除 ThreadLocal中用完的信息 会有内存泄漏的风险
+        // 如果不删除 ThreadLocal中用完的信息 会有内存泄漏的风险
         UserThreadLocal.remove();
     }
 }

@@ -17,7 +17,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     public static void main(String[] args) {
         //加密策略 MD5 不安全 彩虹表  MD5 加盐
-        String mszlu = new BCryptPasswordEncoder().encode("mszlu");
+        String mszlu = new BCryptPasswordEncoder().encode("fan");
         System.out.println(mszlu);
     }
     @Override
