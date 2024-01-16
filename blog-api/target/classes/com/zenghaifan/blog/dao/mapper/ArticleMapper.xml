@@ -18,21 +18,21 @@
     </resultMap>
 
     <select id="listArchives" resultType="com.zenghaifan.blog.dao.dos.Archives">
-        select FROM_UNIXTIME(create_date/1000,'%Y') as year,FROM_UNIXTIME(create_date/1000,'%m') as month,count(*) as count from ms_article group by year,month
+        select FROM_UNIXTIME(create_date/1000,'%Y') as year,FROM_UNIXTIME(create_date/1000,'%m') as month,count(*) as count from fan_article group by year,month
     </select>
     <!--            Long categoryId,
                                Long tagId,
                                String year,
                                String month-->
     <select id="listArticle" resultMap="articleMap">
-        select * from ms_article
+        select * from fan_article
         <where>
             1 = 1
             <if test="categoryId != null">
                 and category_id=#{categoryId}
             </if>
             <if test="tagId != null">
-                and id in (select article_id from ms_article_tag where tag_id=#{tagId})
+                and id in (select article_id from fan_article_tag where tag_id=#{tagId})
             </if>
             <if test="year != null and year.length>0 and month != null and month.length>0">
                and (FROM_UNIXTIME(create_date/1000,'%Y') =#{year} and FROM_UNIXTIME(create_date/1000,'%m')=#{month})
