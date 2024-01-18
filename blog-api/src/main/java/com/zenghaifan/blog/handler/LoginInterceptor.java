@@ -26,12 +26,12 @@ public class LoginInterceptor implements HandlerInterceptor {
         // 在执行controller方法(Handler)之前进行执行
         /**
          * 1. 需要判断 请求的接口路径 是否为 HandlerMethod (controller方法)
-         * 2. 判断 token是否为空，如果为空 未登录
-         * 3. 如果token 不为空，登录验证 loginService checkToken
+         * 2. 判断 token 是否为空，如果为空 未登录
+         * 3. 如果 token 不为空，登录验证 loginService checkToken
          * 4. 如果认证成功 放行即可
          */
         if (!(handler instanceof HandlerMethod)){
-            //handler 可能是 RequestResourceHandler springboot 程序 访问静态资源 默认去classpath下的static目录去查询
+            // handler 可能是 RequestResourceHandler springboot 程序 访问静态资源 默认去classpath下的static目录去查询
             return true;
         }
         String token = request.getHeader("Authorization");
@@ -58,7 +58,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             return false;
         }
         // 登录验证成功，放行
-        // TODO: 在controller中 直接获取用户的信息
+        // 在controller中 直接获取用户的信息
         UserThreadLocal.put(sysUser);
         return true;
     }
